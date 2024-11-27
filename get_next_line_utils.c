@@ -6,7 +6,7 @@
 /*   By: alvinram <alvinram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/21 23:14:25 by alvinram          #+#    #+#             */
-/*   Updated: 2024/11/26 23:26:41 by alvinram         ###   ########.fr       */
+/*   Updated: 2024/11/27 17:27:34 by alvinram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,36 @@ size_t	ft_strlen(const char *string)
 	while (string[string_length] != '\0')
 		string_length++;
 	return (string_length);
+}
+
+void	*ft_memcpy(void *destination, const void *source, size_t byte_number)
+{
+	size_t				index;
+	unsigned char		*tmp_dst;
+	const unsigned char	*tmp_src;
+
+	if (destination == NULL && source == NULL)
+		return (NULL);
+	index = 0;
+	tmp_dst = (unsigned char *)destination;
+	tmp_src = (const unsigned char *)source;
+	while (index < byte_number)
+	{
+		tmp_dst[index] = tmp_src[index];
+		index++;
+	}
+	return (destination);
+}
+
+char	*ft_strdup(const char *source)
+{
+	char	*duplicate;
+
+	duplicate = (char *)malloc(ft_strlen(source) + 1);
+	if (!duplicate)
+		return (NULL);
+	ft_memcpy(duplicate, source, ft_strlen(source) + 1);
+	return (duplicate);
 }
 
 char	*ft_strchr(const char *string, int character)
