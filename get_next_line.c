@@ -6,7 +6,7 @@
 /*   By: alvinram <alvinram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 22:03:40 by alvinram          #+#    #+#             */
-/*   Updated: 2024/12/13 23:51:34 by alvinram         ###   ########.fr       */
+/*   Updated: 2024/12/14 23:44:40 by alvinram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*new_line(char *depot)
 	char	*pointer;
 	int		length;
 
-	pointer = ft_strchar(depot, '\n');
+	pointer = ft_strchr(depot, '\n');
 	length = pointer - depot + 1;
 	line = ft_substr(depot, 0, length);
 	if (!line)
@@ -39,7 +39,7 @@ char	*clean_depot(char *depot)
 	char	*pointer;
 	int		length;
 
-	pointer = ft_strchar(depot, '\n');
+	pointer = ft_strchr(depot, '\n');
 	if (!pointer)
 	{
 		new_depot = NULL;
@@ -56,11 +56,38 @@ char	*clean_depot(char *depot)
 	return (new_depot);
 }
 
+char	*read_buffer(int fd, char *depot)
+{
+	int		to_read;
+	char	*buffer;
+
+	if (fd < 0)
+		return (NULL);
+	to_read = 1;
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (ft_free(&depot));
+	buffer[0] = '\0';
+	while (to_read > 0 && !ft_strchr(buffer, '\n'))
+	{
+		to_read = read(fd, buffer, BUFFER_SIZE);
+		if (to_read > 0)
+		{
+			buffer[to_read] = '\0';
+			depot = ft_strjoin(depot, buffer);
+		}
+	}
+	free(buffer);
+	if (to_read == -1)
+		return (ft_free(&depot));
+	return (depot);
+}
+
 char	*get_next_line(int fd)
 {
 	char		*line;
 	static char	*depot = NULL;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-        return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 }
