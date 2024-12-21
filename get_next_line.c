@@ -6,7 +6,7 @@
 /*   By: alvinram <alvinram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 22:03:40 by alvinram          #+#    #+#             */
-/*   Updated: 2024/12/14 23:44:40 by alvinram         ###   ########.fr       */
+/*   Updated: 2024/12/21 23:52:33 by alvinram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,4 +90,13 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	if ((depot && !ft_strchar(depot, '\n')) || !depot)
+		depot = readbuff(fd, depot);
+	if (!depot)
+		return (NULL);
+	line = new_line(depot);
+	if (!line)
+		return (ft_free(&depot));
+	depot = clean_depot(depot);
+	return (line);
 }
